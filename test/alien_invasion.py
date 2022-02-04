@@ -5,7 +5,6 @@ import pygame
 from settings import Settings
 from ship import Ship
 from bullet import Bullet
-from alien import Alien
 
 
 class AlienInvasion():
@@ -33,7 +32,6 @@ class AlienInvasion():
             self._update_screen()
             self.ship.update()
             self._update_bullets()
-            self._create_fleet()
 
 
     def _check_events(self):  # Вспомогательный метод, с символом _, работают внтури класса, а не через экземпляр
@@ -48,10 +46,10 @@ class AlienInvasion():
 
     def _check_keydown_events(self, event):
         """реагирует на нажатие клавиш"""
-        if event.key == pygame.K_RIGHT:
-            self.ship.moving_right = True
-        elif event.key == pygame.K_LEFT:
-            self.ship.moving_left = True
+        if event.key == pygame.K_UP:
+            self.ship.moving_up = True
+        elif event.key == pygame.K_DOWN:
+            self.ship.moving_down = True
         elif event.key == pygame.K_ESCAPE:  # Игра закрывается если нажата ESc
             sys.exit()
         elif event.key == pygame.K_SPACE:
@@ -59,10 +57,10 @@ class AlienInvasion():
 
     def _check_keyup_events(self, event):
         """реагирует на отпускание клавиш"""
-        if event.key == pygame.K_RIGHT:
-            self.ship.moving_right = False
-        elif event.key == pygame.K_LEFT:
-            self.ship.moving_left = False
+        if event.key == pygame.K_UP:
+            self.ship.moving_up = False
+        elif event.key == pygame.K_DOWN:
+            self.ship.moving_down = False
 
     def _fire_bullet(self):
         """Создание нового снаряда и включение его в группу bullets"""
@@ -76,26 +74,9 @@ class AlienInvasion():
         self.bullets.update()
         # Удаление снарядов, вышедших за край экрана
         for bullet in self.bullets.copy():
-            if bullet.rect.bottom <= 0:
+            if bullet.rect.topright >= self.settings.screen_width:
                 self.bullets.remove(bullet)
             # print(len(self.bullets)) # Смотреть в терминале число активных снарядов на экране
-
-    def _create_fleet(self):
-        """Создание флота вторжения"""
-        # Создание пршельца и вычисление количества пришельцев в ряду
-        # Интервал между соседними пришельцами равен ширине пришельца
-        alien = Alien(self)
-        alien_width = alien.rect.width
-        available_space_x = self.settings.screen_width - (2 * alien_width)
-        number_aliens_x = available_space_x // (2*alien_width)
-
-        # Создание первого ряда пришельцев
-        for alien_number in range(number_aliens_x):
-            # Создание пришельца и размещение его в ряду
-            alien = Alien(self)
-            alien.x = alien_width + 2 * alien_width * alien_number
-            alien.rect.x = alien.x
-            self.aliens.add(alien)
 
 
     def _update_screen(self):  # Вспомогательный метод, с символом _, работают внтури класса, а не через экземпляр
