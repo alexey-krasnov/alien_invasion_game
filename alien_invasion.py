@@ -25,16 +25,16 @@ class AlienInvasion():
         self.ship = Ship(self)  # создаем экземпляр корабля
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
+        self._create_fleet()
 
     def run_game(self):
         """Start of the main cycle of the game"""
         while True:
             self._check_events()
-            self._update_screen()
             self.ship.update()
             self._update_bullets()
-            self._create_fleet()
-
+            self._update_aliens()
+            self._update_screen()
 
     def _check_events(self):  # Вспомогательный метод, с символом _, работают внтури класса, а не через экземпляр
         # Check the keyboard and mouse actions
@@ -79,24 +79,62 @@ class AlienInvasion():
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
             # print(len(self.bullets)) # Смотреть в терминале число активных снарядов на экране
+        self._check_bullet_alien_collisions()
+
+    def _check_bullet_alien_collisions(self):
+        # проверка попаданий в пришельца
+        # при обнаружении попадания удалить снаряд и пришельца
+        collisions = pygame.sprite.groupcollide(
+            self.bullets, self.aliens, True, True)
+        if not self.aliens:
+            # Destroy existing bullets and create new fleet
+            self.bullets.empty()
+            self._create_fleet()
+
+    def _update_aliens(self):
+        """обновляет позиции всех пришелцев во флоте"""
+        self.aliens.update()
+        self._check_fleet_edges()
 
     def _create_fleet(self):
         """Создание флота вторжения"""
-        # Создание пршельца и вычисление количества пришельцев в ряду
+        # Создание пришельца и вычисление количества пришельцев в ряду
         # Интервал между соседними пришельцами равен ширине пришельца
         alien = Alien(self)
-        alien_width = alien.rect.width
+        alien_width, alien_height = alien.rect.size
         available_space_x = self.settings.screen_width - (2 * alien_width)
         number_aliens_x = available_space_x // (2*alien_width)
-
+        """Определение количества рядов помещающихся на экране"""
+        ship_height = self.ship.rect.height
+        available_space_y = self.settings.screen_heigth - 3 * alien_height - ship_height
+        number_rows = available_space_y // (2 * alien_height)
         # Создание первого ряда пришельцев
-        for alien_number in range(number_aliens_x):
-            # Создание пришельца и размещение его в ряду
-            alien = Alien(self)
-            alien.x = alien_width + 2 * alien_width * alien_number
-            alien.rect.x = alien.x
-            self.aliens.add(alien)
+        for row_number in range(number_rows):
+            for alien_number in range(number_aliens_x):
+                self._create_alien(alien_number, row_number)
 
+
+    def _create_alien(self, alien_number, row_number):
+        # Создание пришельца и размещение его в ряду
+        alien = Alien(self)
+        alien_width, alien_height = alien.rect.size
+        alien.x = alien_width + 2 * alien_width * alien_number
+        alien.rect.x = alien.x
+        alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
+        self.aliens.add(alien)
+
+    def _check_fleet_edges(self):
+        """Реагирует на достижение пришельцем края экрана"""
+        for alien in self.aliens.sprites():
+            if alien.check_edges():
+                self._change_fleet_direction()
+                break
+
+    def _change_fleet_direction(self):
+        """Опускает весь флот и меняет направление флота"""
+        for alien in self.aliens.sprites():
+            alien.rect.y += self.settings.fleet_drop_speed
+        self.settings.fleet_direction *= -1
 
     def _update_screen(self):  # Вспомогательный метод, с символом _, работают внтури класса, а не через экземпляр
         # Обновляет изображение на экране и отображает новый экран
