@@ -10,12 +10,12 @@ class Settings():
         # Настройки корабля
         self.ship_speed = 5
         # параметры снаряда
-        self.bullet_speed = 1.5
+        self.bullet_speed = 3
         self.bullet_width = 3
         self.bullet_height = 15
         self.bullet_color = (60, 60, 60) # Темно серые снаряды
         self.bullet_allowed = 5
-        self.alien_speed = 1.0
+        self.alien_speed = 3.0
         self.fleet_drop_speed = 10
         # fleet_direction = -1 движение влевоб 1 вправо
         self.fleet_direction = 1
