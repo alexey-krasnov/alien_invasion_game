@@ -19,3 +19,4 @@ class Settings():
         self.fleet_drop_speed = 10
         # fleet_direction = -1 движение влевоб 1 вправо
         self.fleet_direction = 1
+        self.ship_left = 3
