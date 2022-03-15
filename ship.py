@@ -2,27 +2,27 @@ import pygame
 
 
 class Ship():
-    """класс для управления кораблем"""
+    """Class for managing ship"""
     def __init__(self, ai):
-        """Инициализирует корабль и заадет его начальную позицию"""
+        """Initializes the ship and set its initial position"""
         self.screen = ai.screen
-        self.settings = ai.settings  # создаем атрибут settings для использования в update
+        self.settings = ai.settings  # Create a settings attribute to use in update
         self.screen_rect = ai.screen.get_rect()
 
-        # Загружает изображение корабля и получает прямоугольник
+        # Loads a ship image and get a rectangle
         self.image = pygame.image.load('images/ship.bmp')
         self.rect = self.image.get_rect()
-        # Каждый новый корабль появляется у нижнего края экрана
+        # Each new ship appears at the bottom of the screen
         self.rect.midbottom = self.screen_rect.midbottom
-        # Сохранение вещественной координаты центра корабля в новом атрибуте self.x
+        # Store the real coordinate of the ship's center in a new attribute self.x
         self.x = float(self.rect.x)
-        # Флаг перемещения вправо и влево
+        # Move right and left flag
         self.moving_right = False
         self.moving_left = False
 
     def update(self):
-        """Обновляет позицию корабля с учетом флага"""
-        # обновляется атрибут х объекта ship а не rect
+        """Update the ship's position based on the flag"""
+        # The x attribute of the ship object is updated, not the rect
         if self.moving_right and self.rect.right < self.screen_rect.right:
             self.x += self.settings.ship_speed
         if self.moving_left and self.rect.left > 0:
@@ -30,7 +30,7 @@ class Ship():
         self.rect.x = self.x
 
     def blitme(self):
-        """Рисует корабль в текущей позиции"""
+        """Draw the ship at the current position"""
         self.screen.blit(self.image, self.rect)
 
     def center_ship(self):

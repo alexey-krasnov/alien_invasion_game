@@ -3,15 +3,15 @@ class Settings():
 
     def __init__(self):
         """"инициализирует статические настройки игры"""
-        # Параметры экрана
+        # Screen settings
         self.screen_width = 1200
         self.screen_heigth = 800
         self.bg_color = (230, 230, 230)
 
-        # Настройки корабля
+        # Ship settings
         self.ship_left = 3
 
-        # параметры снаряда
+        # Bullet settings
         self.bullet_speed = 3
         self.bullet_width = 3
         self.bullet_height = 15
@@ -36,7 +36,7 @@ class Settings():
         self.fleet_direction = 1
 
     def increase_speed(self):
-        """Increace speed settings"""
+        """Increase speed settings"""
         self.ship_speed *= self.speedup_scale
         self.bullet_speed *= self.speedup_scale
         self.alien_speed *= self.speedup_scale
