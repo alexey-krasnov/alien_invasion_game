@@ -1,8 +1,8 @@
 class Settings():
-    """класс для хранения всех настроек игры Alien Invasion"""
+    """Class to store all Alien Invasion game settings"""
 
     def __init__(self):
-        """"инициализирует статические настройки игры"""
+        """Initialize static game settings"""
         # Screen settings
         self.screen_width = 1200
         self.screen_heigth = 800
@@ -15,7 +15,7 @@ class Settings():
         self.bullet_speed = 3
         self.bullet_width = 3
         self.bullet_height = 15
-        self.bullet_color = (60, 60, 60) # Темно серые снаряды
+        self.bullet_color = (60, 60, 60)  # Dark gray bullets
         self.bullet_allowed = 5
 
         # Aliens settings

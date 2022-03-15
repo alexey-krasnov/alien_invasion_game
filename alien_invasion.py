@@ -80,7 +80,7 @@ class AlienInvasion():
             pygame.mouse.set_visible(False)
 
     def _check_keydown_events(self, event):
-        """реагирует на нажатие клавиш"""
+        """Respond to key presses"""
         if event.key == pygame.K_RIGHT:
             self.ship.moving_right = True
         elif event.key == pygame.K_LEFT:
@@ -98,13 +98,13 @@ class AlienInvasion():
             self.ship.moving_left = False
 
     def _fire_bullet(self):
-        """Создание нового снаряда и включение его в группу bullets"""
+        """Create a new bullet and include it in a group bullets"""
         if len(self.bullets) < self.settings.bullet_allowed:
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
 
     def _update_bullets(self):
-        """Обновляет позиции и уничтожает старые снаряды"""
+        """Refresh positions and destroy old bullets"""
         # Обновление позиций снарядов
         self.bullets.update()
         # Удаление снарядов, вышедших за край экрана
