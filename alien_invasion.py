@@ -17,11 +17,11 @@ class AlienInvasion():
         """Initialize game and build game resources"""
         pygame.init()
         self.settings = Settings()
-        # игра в полноэкранном режиме
+        # game in full screen
         # self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         # self.settings.screen_width = self.screen.get_rect().width
         # self.settings.screen_heigth = self.screen.get_rect().height
-        # игра в отдельном окне
+        # game in separate window
         self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_heigth))
         pygame.display.set_caption("Alien Invasion")
 
@@ -29,7 +29,7 @@ class AlienInvasion():
         self.stats = GameStats(self)
         self.sb = Scoreboard(self)
 
-        self.ship = Ship(self)  # создаем экземпляр корабля
+        self.ship = Ship(self)  # Make ship instance
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
         self._create_fleet()
@@ -45,14 +45,14 @@ class AlienInvasion():
                 self._update_aliens()
             self._update_screen()
 
-    def _check_events(self):  # Вспомогательный метод, с символом _, работают внтури класса, а не через экземпляр
+    def _check_events(self):
         # Check the keyboard and mouse actions
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
-            elif event.type == pygame.KEYDOWN:  # Если клавиша нажата то перемещается корабль
+            elif event.type == pygame.KEYDOWN:  # If the key is pressed, the ship moves
                 self._check_keydown_events(event)
-            elif event.type == pygame.KEYUP:  # Если клавиша отжата, то перемещение приостанавливается
+            elif event.type == pygame.KEYUP:  # If the key is released, the movement is suspended
                 self._check_keyup_events(event)
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
@@ -85,13 +85,13 @@ class AlienInvasion():
             self.ship.moving_right = True
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = True
-        elif event.key == pygame.K_ESCAPE:  # Игра закрывается если нажата ESc
+        elif event.key == pygame.K_ESCAPE:  # Game closes if ESc is pressed
             sys.exit()
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
 
     def _check_keyup_events(self, event):
-        """реагирует на отпускание клавиш"""
+        """Respond to key release"""
         if event.key == pygame.K_RIGHT:
             self.ship.moving_right = False
         elif event.key == pygame.K_LEFT:
@@ -218,6 +218,6 @@ class AlienInvasion():
 
 
 if __name__ == '__main__':
-    # Create an exemplar and start the game
+    # Create an instance and start the game
     ai = AlienInvasion()
     ai.run_game()

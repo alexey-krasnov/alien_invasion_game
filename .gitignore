@@ -1,0 +1,7 @@
+__pychache__/
+*txt
+*png
+*.pyc
+.DS_store
+!requirements.txt
+!images/*
