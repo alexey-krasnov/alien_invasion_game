@@ -1,8 +1,8 @@
-class GameStats():
+class GameStats:
     """Check statistics for the game Alien Invasion"""
 
     def __init__(self, ai):
-        """Initialize statisics"""
+        """Initialize statistics"""
         self.settings = ai.settings
         self.reset_stats()
         # The game starts at the inactive state

@@ -1,6 +1,7 @@
 import pygame
 from pygame.sprite import Sprite
 
+
 class Alien(Sprite):
     """Class for one alien"""
     def __init__(self, ai):
@@ -24,7 +25,7 @@ class Alien(Sprite):
     def check_edges(self):
         """Return True if the alien is at the edge of the screen"""
         screen_rect = self.screen.get_rect()
-        if self.rect.right >= screen_rect.right or self.rect.left <=0:
+        if self.rect.right >= screen_rect.right or self.rect.left <= 0:
             return True
 
     def update(self):

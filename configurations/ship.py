@@ -1,7 +1,7 @@
 import pygame
 
 
-class Ship():
+class Ship:
     """Class for managing ship"""
     def __init__(self, ai):
         """Initializes the ship and set its initial position"""

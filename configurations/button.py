@@ -1,6 +1,7 @@
 import pygame.font
 
-class Button():
+
+class Button:
 
     def __init__(self, ai, msg):
         """Initialize attributes of button"""
@@ -30,4 +31,3 @@ class Button():
         """Image empty button and show the text"""
         self.screen.fill(self.button_color, self.rect)
         self.screen.blit(self.msg_image, self.msg_image_rect)
-

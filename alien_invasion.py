@@ -11,8 +11,10 @@ from configurations.game_stats import GameStats
 from configurations.button import Button
 from configurations.scoreboard import Scoreboard
 
-class AlienInvasion():
+
+class AlienInvasion:
     """Class to rule resources and behavior of the game"""
+
     def __init__(self):
         """Initialize game and build game resources"""
         pygame.init()
@@ -20,9 +22,9 @@ class AlienInvasion():
         # game in full screen
         # self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         # self.settings.screen_width = self.screen.get_rect().width
-        # self.settings.screen_heigth = self.screen.get_rect().height
+        # self.settings.screen_height = self.screen.get_rect().height
         # game in separate window
-        self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_heigth))
+        self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
         pygame.display.set_caption("Alien Invasion")
 
         # Make instances to save statistics
@@ -139,7 +141,7 @@ class AlienInvasion():
         """Processing of chip collision "with the aliens"""
         if self.stats.ships_left > 0:
             # Reduce ships_left
-            self.stats.ships_left -=1
+            self.stats.ships_left -= 1
 
             # Deletion of alien list and bullets list
             self.aliens.empty()
@@ -169,16 +171,15 @@ class AlienInvasion():
         alien = Alien(self)
         alien_width, alien_height = alien.rect.size
         available_space_x = self.settings.screen_width - (2 * alien_width)
-        number_aliens_x = available_space_x // (2*alien_width)
+        number_aliens_x = available_space_x // (2 * alien_width)
         """Определение количества рядов помещающихся на экране"""
         ship_height = self.ship.rect.height
-        available_space_y = self.settings.screen_heigth - 3 * alien_height - ship_height
+        available_space_y = self.settings.screen_height - 3 * alien_height - ship_height
         number_rows = available_space_y // (2 * alien_height)
         # Создание первого ряда пришельцев
         for row_number in range(number_rows):
             for alien_number in range(number_aliens_x):
                 self._create_alien(alien_number, row_number)
-
 
     def _create_alien(self, alien_number, row_number):
         # Создание пришельца и размещение его в ряду
