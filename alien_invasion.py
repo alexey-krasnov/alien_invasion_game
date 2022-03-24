@@ -107,18 +107,18 @@ class AlienInvasion:
 
     def _update_bullets(self):
         """Refresh positions and destroy old bullets"""
-        # Обновление позиций снарядов
+        # Update bullets positions
         self.bullets.update()
-        # Удаление снарядов, вышедших за край экрана
+        # Removing bullets that have gone off the edge of the screen
         for bullet in self.bullets.copy():
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
-            # print(len(self.bullets)) # Смотреть в терминале число активных снарядов на экране
+            # print(len(self.bullets)) # Print the number of active bullets on the screen in the terminal
         self._check_bullet_alien_collisions()
 
     def _check_bullet_alien_collisions(self):
-        # проверка попаданий в пришельца
-        # при обнаружении попадания удалить снаряд и пришельца
+        # Alien hit test
+        # when a hit is detected, remove the projectile and the alien
         collisions = pygame.sprite.groupcollide(
             self.bullets, self.aliens, True, True)
         if not self.aliens:
@@ -128,7 +128,7 @@ class AlienInvasion:
             self.settings.increase_speed()
 
     def _update_aliens(self):
-        """обновляет позиции всех пришелцев во флоте"""
+        """Update the positions of all aliens in the fleet"""
         self.aliens.update()
         self._check_fleet_edges()
         # Check collision alien-ship
@@ -165,24 +165,24 @@ class AlienInvasion:
                 break
 
     def _create_fleet(self):
-        """Создание флота вторжения"""
-        # Создание пришельца и вычисление количества пришельцев в ряду
-        # Интервал между соседними пришельцами равен ширине пришельца
+        """Creation of the invasion fleet"""
+        # Create an alien and calculate the number of aliens in a row
+        # The spacing between adjacent aliens is equal to the width of the alien
         alien = Alien(self)
         alien_width, alien_height = alien.rect.size
         available_space_x = self.settings.screen_width - (2 * alien_width)
         number_aliens_x = available_space_x // (2 * alien_width)
-        """Определение количества рядов помещающихся на экране"""
+        # Determine the number of rows that fit on the screen
         ship_height = self.ship.rect.height
         available_space_y = self.settings.screen_height - 3 * alien_height - ship_height
         number_rows = available_space_y // (2 * alien_height)
-        # Создание первого ряда пришельцев
+        # Create the first row of aliens
         for row_number in range(number_rows):
             for alien_number in range(number_aliens_x):
                 self._create_alien(alien_number, row_number)
 
     def _create_alien(self, alien_number, row_number):
-        # Создание пришельца и размещение его в ряду
+        # Create an alien and placing it in a row
         alien = Alien(self)
         alien_width, alien_height = alien.rect.size
         alien.x = alien_width + 2 * alien_width * alien_number
@@ -191,20 +191,20 @@ class AlienInvasion:
         self.aliens.add(alien)
 
     def _check_fleet_edges(self):
-        """Реагирует на достижение пришельцем края экрана"""
+        """React when an alien reaches the edge of the screen"""
         for alien in self.aliens.sprites():
             if alien.check_edges():
                 self._change_fleet_direction()
                 break
 
     def _change_fleet_direction(self):
-        """Опускает весь флот и меняет направление флота"""
+        """Lower the entire fleet and change the direction of the fleet"""
         for alien in self.aliens.sprites():
             alien.rect.y += self.settings.fleet_drop_speed
         self.settings.fleet_direction *= -1
 
-    def _update_screen(self):  # Вспомогательный метод, с символом _, работают внтури класса, а не через экземпляр
-        # Обновляет изображение на экране и отображает новый экран
+    def _update_screen(self):
+        # Refresh the screen image and displays the new screen
         self.screen.fill(self.settings.bg_color)
         self.ship.blitme()
         for bullet in self.bullets.sprites():
