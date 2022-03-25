@@ -3,6 +3,7 @@ from pygame.sprite import Group
 
 from ship import Ship
 
+
 class Scoreboard:
     """Class for showing game information"""
     def __init__(self, ai):
@@ -20,6 +21,7 @@ class Scoreboard:
         self.prep_score()
         self.prep_high_score()
         self.prep_level()
+        self.prep_ships()
 
     def prep_score(self):
         """Transform current score to image"""
@@ -45,7 +47,7 @@ class Scoreboard:
         high_score = round(self.stats.high_score, -1)
         high_score_str = f'{high_score:,}'
         self.high_score_image = self.font.render(high_score_str, True,
-                self.text_color, self.ai_settings.bg_color)
+                self.text_color, self.ai.settings.bg_color)
 
         # The record is centered on the top side
         self.high_score_rect = self.high_score_image.get_rect()
@@ -74,7 +76,7 @@ class Scoreboard:
     def prep_ships(self):
         """Reports the number of remaining ships"""
         self.ships = Group()
-        for ship_number in range(self.stats.ship_left):
+        for ship_number in range(self.stats.ships_left):
             ship = Ship(self.ai)
             ship.rect.x = 10 + ship_number * ship.rect.width
             ship.rect.y = 10
